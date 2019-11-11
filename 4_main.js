@@ -1,6 +1,7 @@
 'use strict';
 
 const addErrorHandler = require('./6_error_handler');
+const { DatabaseError } = require('./errors');
 
 const fastify = require('fastify')({
   logger: true,
@@ -22,6 +23,10 @@ const opts = {
 
 fastify.get('/', async (request, reply) => {
   return { hello: 'world' };
+});
+
+fastify.get('/app-error', async (request, reply) => {
+  throw new DatabaseError('Database not connected :/');
 });
 
 fastify.post('/', opts, async (request, reply) => {
