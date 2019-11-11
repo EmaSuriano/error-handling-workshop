@@ -4,6 +4,7 @@ const fs = require('fs').promises;
 const util = require('util');
 const addErrorHandler = require('./6_error_handler');
 const errors = require('./errors');
+const got = require('got');
 
 const fastify = require('fastify')({
   logger: true,
@@ -18,6 +19,7 @@ const opts = {
         password: { type: 'string' },
         email: { type: 'string' },
       },
+      required: ['password', 'email'],
     },
   },
 };
@@ -60,7 +62,7 @@ fastify.get('/logout', async (request, reply) => {
 
 fastify.get('/picture', async (request, reply) => {
   // Add repeat logic
-  const got = require('got');
+
   const res = await got('https://picsum.photos/600', { encoding: null });
   reply.type('image/jpeg');
   return res.body;
