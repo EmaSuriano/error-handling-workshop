@@ -1,15 +1,14 @@
 'use strict';
 
-const { ApplicationError } = require('./errors');
-
-function addErrorHandler(fastify) {
+function addErrorHandler(fastify, errors) {
   fastify.setErrorHandler((error, request, reply) => {
     fastify.log.debug(`Request url: `, request.req.url);
     fastify.log.debug(`Payload: `, request.body);
     fastify.log.error(`Error occurred: `, error);
-    console.log(error);
-    if (error instanceof ApplicationError) {
+
+    if (error instanceof errors.ApplicationError) {
       reply.status(500).send({ message: 'Application error' });
+      return;
     }
 
     reply.status(500).send({ message: 'Something else ...' });
