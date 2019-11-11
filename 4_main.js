@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 const fastify = require('fastify')({
-  logger: true
-})
+  logger: true,
+});
 
 // Validate incoming data
 const opts = {
@@ -11,33 +11,30 @@ const opts = {
       type: 'object',
       properties: {
         someKey: { type: 'string' },
-        someOtherKey: { type: 'number' }
-      }
-    }
-  }
-}
-
-fastify.register(require('fastify-jwt'), {
-  secret: process.env.SECRET || 'youshouldspecifyalongsecret'
-})
+        someOtherKey: { type: 'number' },
+      },
+      required: ['someKey'],
+    },
+  },
+};
 
 fastify.get('/', async (request, reply) => {
-  return { hello: 'world' }
-})
+  return { hello: 'world' };
+});
 
 fastify.post('/', opts, async (request, reply) => {
-  return { hello: 'world' }
-})
+  return { hello: 'world' };
+});
 
 const start = async () => {
   try {
-    await fastify.listen(3000)
+    await fastify.listen(3000);
   } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
+    fastify.log.error(err);
+    process.exit(1);
   }
-}
-start()
+};
+start();
 
 // Task 1: create a package.json that includes the required Node.js modules
 // https://docs.npmjs.com/creating-a-package-json-file

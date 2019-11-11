@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 const fastify = require('fastify')({
-  logger: true
-})
+  logger: true,
+});
 
 // Validate incoming data
 
@@ -12,12 +12,23 @@ const opts = {
       type: 'object',
       properties: {
         someKey: { type: 'string' },
-        someOtherKey: { type: 'number' }
-      }
-    }
-  }
-}
+        someOtherKey: { type: 'number' },
+      },
+    },
+  },
+};
 
 fastify.post('/', opts, async (request, reply) => {
-  return { hello: 'world' }
-})
+  return { hello: 'world' };
+});
+
+const start = async () => {
+  try {
+    await fastify.listen(3000);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();
