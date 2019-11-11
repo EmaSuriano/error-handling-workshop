@@ -4,6 +4,8 @@
 // Use assertions to catch programming errors.
 // https://en.wikipedia.org/wiki/Assertion_%28software_development%29#Comparison_with_error_handling
 
+const assert = require('assert');
+
 class ApplicationError extends Error {
   constructor(message, options = {}) {
     assert(typeof message === 'string');
@@ -24,11 +26,23 @@ class ApplicationError extends Error {
   }
 }
 
-class OutgoingRequestError extends ApplicationError {}
+class OutgoingRequestError extends ApplicationError {
+  get statusCode() {
+    return 503;
+  }
+}
 
-class DatabaseError extends ApplicationError {}
+class DatabaseError extends ApplicationError {
+  get statusCode() {
+    return 504;
+  }
+}
 
-class UserFacingError extends ApplicationError {}
+class UserFacingError extends ApplicationError {
+  get statusCode() {
+    return 505;
+  }
+}
 
 module.exports = {
   ApplicationError,

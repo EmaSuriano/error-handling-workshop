@@ -1,16 +1,20 @@
-'use strict'
+'use strict';
+
+const { OutgoingRequestError } = require('./errors');
 
 function addErrorHandler(fastify) {
   fastify.setErrorHandler((error, request, reply) => {
-    fastify.log.debug(`Request url: `, request.req.url)
-    fastify.log.debug(`Payload: `, request.body)
-    fastify.log.error(`Error occurred: `, error)
+    fastify.log.debug(`Request url: `, request.req.url);
+    fastify.log.debug(`Payload: `, request.body);
+    fastify.log.error(`Error occurred: `, error);
 
-    reply.status(500).send({ message: 'Error occurred during request' })
-  })
+    reply
+      .status(500)
+      .send(new OutgoingRequestError('Error occurred during request'));
+  });
 }
 
-module.exports = addErrorHandler
+module.exports = addErrorHandler;
 
 // Task: Create some specific http error classes like a NotFoundError and
 // BadRequestError. Then change the error handler so that it's checking for

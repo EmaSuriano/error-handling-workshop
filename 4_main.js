@@ -1,5 +1,7 @@
 'use strict';
 
+const addErrorHandler = require('./6_error_handler');
+
 const fastify = require('fastify')({
   logger: true,
 });
@@ -25,6 +27,8 @@ fastify.get('/', async (request, reply) => {
 fastify.post('/', opts, async (request, reply) => {
   return { hello: 'world' };
 });
+
+addErrorHandler(fastify);
 
 const start = async () => {
   try {
