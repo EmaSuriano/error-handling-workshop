@@ -9,6 +9,7 @@ class ApplicationError extends Error {
     assert(typeof message === 'string');
     assert(typeof options === 'object');
     assert(options !== null);
+    assert(!Object.prototype.hasOwnProperty.call(options, 'stack'));
     super(message);
 
     // Attach relevant information to the error instance
@@ -33,5 +34,5 @@ module.exports = {
   ApplicationError,
   DatabaseError,
   OutgoingRequestError,
-  UserFacingError
+  UserFacingError,
 };
